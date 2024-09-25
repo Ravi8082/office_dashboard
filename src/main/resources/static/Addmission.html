@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admission Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image:url("addmision.jpg");
+            background-size: cover;
+            background-position: left;
+            background-repeat: no-repeat;
+        }
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffcccc8f;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .form-container input, .form-container select, .form-container textarea {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .form-container label {
+            margin-bottom: 5px;
+        }
+        .form-container button {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+        @media only screen and(max-width:450px){
+           .container{
+               margin:20px;
+               padding: 15px;
+           }
+            .header{
+                margin-bottom: 15px;
+            }
+            .header img{
+                height: 0px;
+                margin-right: 10px;
+            }
+            @media only screen {
+                body{
+                    font-size: 14px;
+                }
+                .container{
+                    margin: 10px;
+                    padding: 10px;
+                }
+                .form-container input,
+                .form-container select,
+                .form-container textarea{
+                    padding: 8px;
+                }
+                .form-container button{
+                    padding: 8px;
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2>Admission Form</h2>
+    </div>
+    <form class="form-container" id="admission-form">
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+
+        <label for="dob">Date of Birth</label>
+        <input type="date" id="dob" name="dob" required>
+
+        <label for="gender">Gender</label>
+        <select id="gender" name="gender" required>
+            <option value="" disabled selected>Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Email" required>
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" placeholder="Phone Number" required>
+
+        <label for="address">Address</label>
+        <textarea id="address" name="address" rows="4" placeholder="Address" required></textarea>
+
+        <label for="class">Class Applying For</label>
+        <select id="class" name="class" required>
+            <option value="" disabled selected>Select Class</option>
+            <option value="8">Class 8</option>
+            <option value="9">Class 9</option>
+            <option value="10">Class 10</option>
+            <option value="11">Class 11</option>
+            <option value="12">Class 12 Math</option>
+            <option value="12">Class 12 Bio</option>
+        </select>
+
+        <button type="submit">Submit Application</button>
+    </form>
+</div>
+<script>document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('admission-form');
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        console.log(data);
+        fetch('http://localhost:8084/Addmision', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then(result => {
+                console.log('Success:', result);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+});
+</script>
+</body>
+</html>
